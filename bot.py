@@ -55,17 +55,15 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     data = query.data
 
-    if data == "catalog":
-        keyboard = []
-        for key, cat in CATALOG.items():
-            keyboard.append([InlineKeyboardButton(cat["name"], callback_data=f"cat_{key}")])
-        keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data="back_main")])
-        await query.edit_message_text(
-            "🛍 *Наш каталог*\n\nВыберите категорию:",
-            reply_markup=InlineKeyboardMarkup(keyboard),
-            parse_mode="Markdown"
-        )
-
+if data == "catalog":
+    await query.edit_message_text(
+        "🛍 *Наш каталог*\n\nНажмите кнопку ниже чтобы просмотреть все товары 👇",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("👗 Перейти в каталог", url="https://t.me/prestij_magazin")],
+            [InlineKeyboardButton("🔙 Назад", callback_data="back_main")]
+        ]),
+        parse_mode="Markdown"
+    )
     elif data.startswith("cat_"):
         cat_key = data.replace("cat_", "")
         cat = CATALOG[cat_key]
